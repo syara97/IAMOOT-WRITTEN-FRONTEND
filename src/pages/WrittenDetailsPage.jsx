@@ -46,7 +46,7 @@ const WrittenDetailsPage = () => {
             totalScore = totalScore + Number(currentScore); 
         })
         console.log(`totalScore is ${totalScore}`);
-        performNavigation('/writtencomp/judge');
+        performNavigation('/written/judge');
     }
         
     return <div>
