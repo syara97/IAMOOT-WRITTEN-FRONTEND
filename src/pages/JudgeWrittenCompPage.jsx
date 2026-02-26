@@ -10,6 +10,7 @@ const JudgeWrittenCompPage = () => {
     const { currentLanguage, resetLanguage } = useContext(LanguageContext);
     const { currentRole, assignRole } = useContext(RoleContext); 
     const performNavigation = useNavigate(); 
+    const assignedMemos = JSON.parse(sessionStorage.getItem('assignedMemorandums') || '[]');
 
     const pageText = {
         EN: {welcomeMsg: 'My Assigned Memorandums', memoText: 'Memorandum:', logoutText: 'Sign Out'}, 
@@ -40,8 +41,20 @@ const JudgeWrittenCompPage = () => {
         </Card>
 
         <ListGroup>
-            <ListGroup.Item action onClick={() => {performNavigation('/writtencomp/memorandum/1')}} style={{ cursor: 'pointer'}}>{actualText.memoText} #1</ListGroup.Item>
-            <ListGroup.Item action onClick={() => {performNavigation('/writtencomp/memorandum/2')}} style={{ cursor: 'pointer'}}>{actualText.memoText} #2</ListGroup.Item>
+            {assignedMemos.lenght === 0 ? (
+                <ListGroup.Item>No memorandums assigned.</ListGroup.Item>
+            ) : (
+                assignedMemos.map((memoId) => (
+                    <ListGroup.Item
+                        key={memoId}
+                        action
+                        onClick={() => performNavigation(`/writtencomp/memorandum/${memoId}`)}
+                        style={{ cursor: 'pointer' }}
+                    >
+                        {actualText.memoText} {memoId}
+                    </ListGroup.Item>
+                ))
+            )}
         </ListGroup>
 
         <Button variant='danger' onClick={handleSignOut}>{actualText.logoutText}</Button>
