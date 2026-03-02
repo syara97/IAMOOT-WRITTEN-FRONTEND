@@ -1,35 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react'; 
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'; 
+
+/************
+ * CONTEXTS *
+ ************/
+import { LanguageProvider } from './contexts/LanguageContext';
+import { RoleProvider } from './contexts/RoleContext';
+import { JudgeIDProvider } from './contexts/JudgeIDContext.jsx'
+
+/*********
+ * PAGES *
+ *********/
+import HomePage from './pages/HomePage';
+import LoginWrittenPage from './pages/LoginWrittenPage'; 
+import AdminWrittenCompPage from './pages/AdminWrittenCompPage'; 
+import JudgeWrittenCompPage from './pages/JudgeWrittenCompPage.jsx';
+import WrittenDetailsPage from './pages/WrittenDetailsPage.jsx';
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    return (
+        <LanguageProvider>
+            <RoleProvider>
+                <JudgeIDProvider>
+                    <Router>
+                        <Routes>
+                            <Route path='/' element={<HomePage/>}/>
+                            <Route path='/login' element={<LoginWrittenPage/>}/>
+                            <Route path='/writtencomp/admin' element={<AdminWrittenCompPage/>}/>
+                            <Route path='/writtencomp/judge' element={<JudgeWrittenCompPage/>}/>
+                            <Route path='/writtencomp/memorandum/:memorandumID' element={<WrittenDetailsPage/>}/>
+                        </Routes>
+                    </Router>
+                </JudgeIDProvider>
+            </RoleProvider>
+        </LanguageProvider>
+    ); 
+
 }
 
-export default App
+export default App;

@@ -19,9 +19,9 @@ const HomePage = () => {
             <Card.Header as='h1' className='display-5 fw-bold'>IAMOOT 2025 - Language Selection</Card.Header>
         </Card>
 
-        <Button variant='primary' onClick={() => (performLanguageChange('EN', '/written/login'))}>English</Button>
-        <Button variant='primary' onClick={() => (performLanguageChange('ES', '/written/login'))}>Español</Button>
-        <Button variant='primary' onClick={() => (performLanguageChange('POR', '/written/login'))}>Português</Button>
+        <Button variant='primary' onClick={() => (performLanguageChange('EN', '/login'))}>English</Button>
+        <Button variant='primary' onClick={() => (performLanguageChange('ES', '/login'))}>Español</Button>
+        <Button variant='primary' onClick={() => (performLanguageChange('POR', '/login'))}>Português</Button>
     </div>
 }; 
 
