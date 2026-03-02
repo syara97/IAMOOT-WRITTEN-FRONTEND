@@ -37,7 +37,7 @@ const LoginPage = () => {
             assignRole(currentRole);
             sessionStorage.setItem('fullName', currentName)
             sessionStorage.setItem('assignedMemorandums', JSON.stringify(currentMemorandums));
-            performNavigation('/writtencomp/judge'); 
+            performNavigation('/dashboard'); 
 
         } catch (err) {
             alert(`Invalid email or password`); 

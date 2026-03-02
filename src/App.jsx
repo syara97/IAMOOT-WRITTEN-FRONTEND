@@ -1,6 +1,7 @@
 import React from 'react'; 
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'; 
 
+
 /************
  * CONTEXTS *
  ************/
@@ -16,6 +17,7 @@ import LoginWrittenPage from './pages/LoginWrittenPage';
 import AdminWrittenCompPage from './pages/AdminWrittenCompPage'; 
 import JudgeWrittenCompPage from './pages/JudgeWrittenCompPage.jsx';
 import WrittenDetailsPage from './pages/WrittenDetailsPage.jsx';
+import DashboardPage from './pages/DashboardPage.jsx';
 
 function App() {
 
@@ -28,6 +30,7 @@ function App() {
                             <Route path='/' element={<HomePage/>}/>
                             <Route path='/login' element={<LoginWrittenPage/>}/>
                             <Route path='/writtencomp/admin' element={<AdminWrittenCompPage/>}/>
+                            <Route path='/dashboard' element={<DashboardPage/>}/>
                             <Route path='/writtencomp/judge' element={<JudgeWrittenCompPage/>}/>
                             <Route path='/writtencomp/memorandum/:memorandumID' element={<WrittenDetailsPage/>}/>
                         </Routes>
