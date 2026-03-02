@@ -16,7 +16,7 @@ const HomePage = () => {
 
     return <div className='d-grid gap-2'>
         <Card className='text-center mb-3'>
-            <Card.Header as='h1' className='display-5 fw-bold'>IAMOOT 2025 - Language Selection</Card.Header>
+            <Card.Header as='h1' className='display-5 fw-bold'>IAMOOT 2026 - Language Selection</Card.Header>
         </Card>
 
         <Button variant='primary' onClick={() => (performLanguageChange('EN', '/login'))}>English</Button>
