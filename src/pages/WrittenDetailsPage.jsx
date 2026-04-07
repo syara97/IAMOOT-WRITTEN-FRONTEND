@@ -14,13 +14,17 @@ const WrittenDetailsPage = () => {
     const { currentRole, assignRole } = useContext(RoleContext); 
     const { register, handleSubmit, formState: { errors }, setValue } = useForm(); 
     const { memorandumID } = useParams(); 
-    const performNavigation = useNavigate(); 
+    const performNavigation = useNavigate();
+
+    const [memorandumLink, setMemorandumLink] = useState('');
+    const [isMemoLinkLoading, setIsMemoLinkLoading] = useState(true);
+    const [memoLinkError, setMemoLinkError] = useState('');
 
     const pageText = {
-        EN: {pageTitle: 'Memorandum', labelPrompt: 'Enter score', errorMessage: 'Please enter a value for the above field', submitMsg: 'Submit score'}, 
-        ES: {pageTitle: "Memorándum", labelPrompt: "Ingrese puntuación", errorMessage: "Por favor, ingrese un valor para el campo anterior", submitMsg: "Registrar puntuación"},
-        POR: {pageTitle: "Memorando", labelPrompt: "Insira a pontuação", errorMessage: "Por favor, insira um valor para o campo acima", submitMsg: "Registrar pontuação"}
-    }
+        EN: {pageTitle: 'Memorandum', labelPrompt: 'Enter score', errorMessage: 'Please enter a value for the above field', submitMsg: 'Submit score', openMemoMsg: 'Open Memorandum in Dropbox', loadingMemoMsg: 'Loading memorandum link...', memoLoadErrorMsg: 'Unable to load memorandum link' },
+        ES: {pageTitle: "Memorándum", labelPrompt: "Ingrese puntuación", errorMessage: "Por favor, ingrese un valor para el campo anterior", submitMsg: "Registrar puntuación", openMemoMsg: "Abrir memorándum en Dropbox", loadingMemoMsg: "Cargando enlace del memorándum...", memoLoadErrorMsg: "No se pudo cargar el enlace del memorándum" },
+        POR: {pageTitle:"Memorando", labelPrompt: "Insira a pontuação", errorMessage: "Por favor, insira um valor para o campo acima", submitMsg: "Registrar pontuação", openMemoMsg: "Abrir memorando no Dropbox", loadingMemoMsg: "Carregando link do memorando...", memoLoadErrorMsg: "Não foi possível carregar o link do memorando" }
+    };
 
     const actualText = pageText[currentLanguage]; 
     const actualFormText = questionText[currentLanguage]; 
@@ -40,6 +44,37 @@ const WrittenDetailsPage = () => {
         }
     }, [currentRole]);
 
+    useEffect(() => {
+        async function fetchMemorandumLink() {
+            try {
+                setIsMemoLinkLoading(true);
+                setMemoLinkError('');
+                setMemorandumLink('');
+
+                const backendBaseURL = import.meta.env.VITE_API_BASE_URL;
+                const response = await fetch(`${backendBaseURL}/api/written-memorandums/${memorandumID}/link`);
+                const responseData = await response.json();
+
+                if (!response.ok || !responseData.ok || !responseData.sharedLink) {
+                    throw new Error('Unable to fetch memorandum link');
+                }
+
+                setMemorandumLink(responseData.sharedLink);
+            } catch (linkError) {
+                console.error(linkError);
+                setMemoLinkError(actualText.memoLoadErrorMsg);
+            } finally {
+                setIsMemoLinkLoading(false);
+            }
+        }
+
+        if (memorandumID) {
+            fetchMemorandumLink();
+        }
+    }, [memorandumID, actualText.memoLoadErrorMsg]);
+
+
+
     const onSubmit = (someData) => {
         let totalScore = 0; 
         (someData.submittedScores).forEach( (currentScore) => {
@@ -52,6 +87,29 @@ const WrittenDetailsPage = () => {
     return <div>
         <Card className='text-center mb-4'>
             <Card.Header as='h1' className='display-5 fw-bold'>{actualText.pageTitle} {memorandumID}</Card.Header>
+        </Card>
+
+        <Card className='mb-4'>
+            <Card.Body>
+                {isMemoLinkLoading && (
+                    <div>{actualText.loadingMemoMsg}</div>
+                )}
+
+                {!isMemoLinkLoading && memoLinkError && (
+                    <div className='text-danger fw-semibold'>{memoLinkError}</div>
+                )}
+
+                {!isMemoLinkLoading && memorandumLink && (
+                    <div className='d-grid gap-2'>
+                        <Button 
+                            variant='primary'
+                            onClick={() => window.open(memorandumLink, '_blank', 'noopener,noreferrer')}
+                        >
+                            {actualText.openMemoMsg}
+                        </Button>
+                    </div>
+                )}
+            </Card.Body>
         </Card>
 
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -96,7 +154,6 @@ const WrittenDetailsPage = () => {
             ))}
             <div className='d-grid gap-2'><Button variant='success' type='submit'>{actualText.submitMsg}</Button></div>
         </Form>
-
     </div>
 };
 
