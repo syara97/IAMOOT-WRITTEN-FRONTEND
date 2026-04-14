@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from 'react'; 
+import React, { useContext, useEffect, useState } from 'react'; 
 import { useForm } from 'react-hook-form'; 
 import { useNavigate, useParams } from 'react-router-dom'; 
-import { Button, Card, Form, ListGroup } from 'react-bootstrap'; 
+import { Button, Card, Form, ListGroup, Spinner } from 'react-bootstrap'; 
 
 import { LanguageContext } from '../contexts/LanguageContext';
 import { RoleContext } from "../contexts/RoleContext";
@@ -56,12 +56,12 @@ const WrittenDetailsPage = () => {
                 const responseData = await response.json();
 
                 if (!response.ok || !responseData.ok || !responseData.sharedLink) {
-                    throw new Error('Unable to fetch memorandum link');
+                    throw new Error(responseData.message ||'Unable to fetch memorandum link');
                 }
 
                 setMemorandumLink(responseData.sharedLink);
             } catch (linkError) {
-                console.error(linkError);
+                console.error('MEMORANDUM LINK FETCH ERROR:', linkError);
                 setMemoLinkError(actualText.memoLoadErrorMsg);
             } finally {
                 setIsMemoLinkLoading(false);
@@ -82,7 +82,7 @@ const WrittenDetailsPage = () => {
         })
         console.log(`totalScore is ${totalScore}`);
         performNavigation('/writtencomp/judge');
-    }
+    };
         
     return <div>
         <Card className='text-center mb-4'>
@@ -92,7 +92,10 @@ const WrittenDetailsPage = () => {
         <Card className='mb-4'>
             <Card.Body>
                 {isMemoLinkLoading && (
-                    <div>{actualText.loadingMemoMsg}</div>
+                    <div className='d-flex align-items-center gap-2 justify-content-center'>
+                        <Spinner animation='border' size='sm' />
+                        <span>{actualText.loadingMemoMsg}</span>
+                        </div>
                 )}
 
                 {!isMemoLinkLoading && memoLinkError && (
@@ -114,18 +117,26 @@ const WrittenDetailsPage = () => {
 
         <Form onSubmit={handleSubmit(onSubmit)}>
             {actualFormText.map( (currentQuestion, questionIndex) => (
-            <Card key={questionIndex} className='mb-4'>
+                <Card key={questionIndex} className='mb-4'>
                     <Card.Body>
                         <Card.Title>{currentQuestion.currentCategory}</Card.Title>
                         <ListGroup variant='flush'>
                             {currentQuestion.currentCriteria.map( (currentCriterion, criteriaIndex) => (
-                                <ListGroup.Item key={criteriaIndex}>{currentCriterion}</ListGroup.Item>
+                                <ListGroup.Item key={criteriaIndex}>
+                                    {currentCriterion}
+                                </ListGroup.Item>
                             ))}
                         </ListGroup>
 
                         <Form.Group className='w-100'>
                             <div className='d-flex align-items-center gap-2'>
-                                <Form.Label className='fw-bold text-nowrap mb-0 me-2 d-flex align-items-center' style={{height: '38px'}}>{actualText.labelPrompt}</Form.Label>
+                                <Form.Label 
+                                    className='fw-bold text-nowrap mb-0 me-2 d-flex align-items-center' 
+                                    style={{height: '38px'}}
+                                >
+                                        {actualText.labelPrompt}
+                                </Form.Label>
+
                                 <Form.Control 
                                     type='number' 
                                     min={currentQuestion.minValue} 
@@ -133,13 +144,19 @@ const WrittenDetailsPage = () => {
                                     onWheel={(someEvent) => someEvent.target.blur()}
                                     {...register(`submittedScores.${questionIndex}`, {
                                         required: actualText.errorMessage, 
-                                        min: currentQuestion.minValue, 
-                                        max: currentQuestion.maxValue
+                                        min: {
+                                            value: currentQuestion.minValue,
+                                            message: actualText.errorMessage
+                                        }, 
+                                        max: {
+                                            value: currentQuestion.maxValue,
+                                            message: actualText.errorMessage
+                                        }
                                     })}
                                     onBlur={(someEvent) => {
                                         let targetValue = Number(someEvent.target.value); 
-                                        if (targetValue < currentQuestion.minValue) setValue(`submittedScores.${questionIndex}`, currentQuestion.minValue);
-                                        if (targetValue > currentQuestion.maxValue) setValue(`submittedScores.${questionIndex}`, currentQuestion.maxValue);
+                                        if (targetValue < currentQuestion.minValue) { setValue(`submittedScores.${questionIndex}`, currentQuestion.minValue); }
+                                        if (targetValue > currentQuestion.maxValue) { setValue(`submittedScores.${questionIndex}`, currentQuestion.maxValue); }
                                     }}
                                 />
                             </div>
