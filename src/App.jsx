@@ -18,6 +18,7 @@ import AdminWrittenCompPage from './pages/AdminWrittenCompPage';
 import JudgeWrittenCompPage from './pages/JudgeWrittenCompPage.jsx';
 import WrittenDetailsPage from './pages/WrittenDetailsPage.jsx';
 import DashboardPage from './pages/DashboardPage.jsx';
+import RequestPassword from './pages/RequestPassword.jsx';
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
                         <Routes>
                             <Route path='/' element={<HomePage/>}/>
                             <Route path='/login' element={<Login/>}/>
+                            <Route path='/request-password' element={<RequestPassword/>}/>
                             <Route path='/writtencomp/admin' element={<AdminWrittenCompPage/>}/>
                             <Route path='/dashboard' element={<DashboardPage/>}/>
                             <Route path='/writtencomp/judge' element={<JudgeWrittenCompPage/>}/>
