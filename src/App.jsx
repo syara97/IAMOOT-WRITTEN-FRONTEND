@@ -13,7 +13,7 @@ import { JudgeIDProvider } from './contexts/JudgeIDContext.jsx'
  * PAGES *
  *********/
 import HomePage from './pages/HomePage';
-import LoginWrittenPage from './pages/LoginWrittenPage'; 
+import Login from './pages/Login'; 
 import AdminWrittenCompPage from './pages/AdminWrittenCompPage'; 
 import JudgeWrittenCompPage from './pages/JudgeWrittenCompPage.jsx';
 import WrittenDetailsPage from './pages/WrittenDetailsPage.jsx';
@@ -28,7 +28,7 @@ function App() {
                     <Router>
                         <Routes>
                             <Route path='/' element={<HomePage/>}/>
-                            <Route path='/login' element={<LoginWrittenPage/>}/>
+                            <Route path='/login' element={<Login/>}/>
                             <Route path='/writtencomp/admin' element={<AdminWrittenCompPage/>}/>
                             <Route path='/dashboard' element={<DashboardPage/>}/>
                             <Route path='/writtencomp/judge' element={<JudgeWrittenCompPage/>}/>
