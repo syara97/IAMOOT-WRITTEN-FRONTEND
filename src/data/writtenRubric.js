@@ -64,7 +64,7 @@ const questionText = {
             ]
         } 
     ],
-    ES: [
+    SPA: [
         {
             currentCategory: 'Identificación de Cuestiones - Máximo 25 Puntos',
             minValue: 0, 

@@ -20,7 +20,7 @@ const HomePage = () => {
         </Card>
 
         <Button variant='primary' onClick={() => (performLanguageChange('EN', '/login'))}>English</Button>
-        <Button variant='primary' onClick={() => (performLanguageChange('ES', '/login'))}>Español</Button>
+        <Button variant='primary' onClick={() => (performLanguageChange('SPA', '/login'))}>Español</Button>
         <Button variant='primary' onClick={() => (performLanguageChange('POR', '/login'))}>Português</Button>
     </div>
 }; 
