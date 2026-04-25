@@ -13,11 +13,12 @@ import { JudgeIDProvider } from './contexts/JudgeIDContext.jsx'
  * PAGES *
  *********/
 import HomePage from './pages/HomePage';
-import LoginWrittenPage from './pages/LoginWrittenPage'; 
-import AdminWrittenCompPage from './pages/AdminWrittenCompPage'; 
+import Login from './pages/Login.jsx'; 
+import RequestPassword from './pages/RequestPassword.jsx';
+import SetPassword from './pages/SetPassword.jsx';
+import DashboardPage from './pages/DashboardPage.jsx';
 import JudgeWrittenCompPage from './pages/JudgeWrittenCompPage.jsx';
 import WrittenDetailsPage from './pages/WrittenDetailsPage.jsx';
-import DashboardPage from './pages/DashboardPage.jsx';
 
 function App() {
 
@@ -28,8 +29,9 @@ function App() {
                     <Router>
                         <Routes>
                             <Route path='/' element={<HomePage/>}/>
-                            <Route path='/login' element={<LoginWrittenPage/>}/>
-                            <Route path='/writtencomp/admin' element={<AdminWrittenCompPage/>}/>
+                            <Route path='/login' element={<Login/>}/>
+                            <Route path='/request-password' element={<RequestPassword/>}/>
+                            <Route path='/set-password' element={<SetPassword />}/>
                             <Route path='/dashboard' element={<DashboardPage/>}/>
                             <Route path='/writtencomp/judge' element={<JudgeWrittenCompPage/>}/>
                             <Route path='/writtencomp/memorandum/:memorandumID' element={<WrittenDetailsPage/>}/>
