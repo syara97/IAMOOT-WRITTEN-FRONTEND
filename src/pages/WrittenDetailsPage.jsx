@@ -31,7 +31,7 @@ const WrittenDetailsPage = () => {
 
     const pageText = {
         EN: {pageTitle: 'Memorandum', labelPrompt: 'Enter score', errorMessage: 'Please enter a value for the above field', submitMsg: 'Submit score', openMemoMsg: 'Open Memorandum in Dropbox', loadingMemoMsg: 'Loading memorandum link...', memoLoadErrorMsg: 'Unable to load memorandum link' },
-        ES: {pageTitle: "Memorándum", labelPrompt: "Ingrese puntuación", errorMessage: "Por favor, ingrese un valor para el campo anterior", submitMsg: "Registrar puntuación", openMemoMsg: "Abrir memorándum en Dropbox", loadingMemoMsg: "Cargando enlace del memorándum...", memoLoadErrorMsg: "No se pudo cargar el enlace del memorándum" },
+        SPA: {pageTitle: "Memorándum", labelPrompt: "Ingrese puntuación", errorMessage: "Por favor, ingrese un valor para el campo anterior", submitMsg: "Registrar puntuación", openMemoMsg: "Abrir memorándum en Dropbox", loadingMemoMsg: "Cargando enlace del memorándum...", memoLoadErrorMsg: "No se pudo cargar el enlace del memorándum" },
         POR: {pageTitle:"Memorando", labelPrompt: "Insira a pontuação", errorMessage: "Por favor, insira um valor para o campo acima", submitMsg: "Registrar pontuação", openMemoMsg: "Abrir memorando no Dropbox", loadingMemoMsg: "Carregando link do memorando...", memoLoadErrorMsg: "Não foi possível carregar o link do memorando" }
     };
 
@@ -163,11 +163,11 @@ const WrittenDetailsPage = () => {
             }
 
             setIsScoreSubmitted(true);
-            setSubmitSuccessMsg('Scores submitted successfully.');
+            
+            alert('Scores submitted successfully.');
 
-            setTimeout(() => {
-                performNavigation('/writtencomp/judge');
-            }, 1200);
+            performNavigation('/writtencomp/judge');
+
         } catch (submitScoresError) {
             console.error('WRITTEN SCORE SUBMIT ERROR:', submitScoresError);
             setSubmitError(submitScoresError.message || 'Unable to submit scores');
