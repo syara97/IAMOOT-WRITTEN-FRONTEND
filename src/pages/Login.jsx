@@ -66,7 +66,7 @@ export default function Login() {
     const onSubmit = async (someData) => {
 
         try {
-            const loginResponse = await api.post('/api/judges/login', {
+            const loginResponse = await api.post('/api/written-judges/login', {
                 email: someData.email,
                 password: someData.password
             });
