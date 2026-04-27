@@ -18,7 +18,7 @@ const pageText = {
         passwordRequired: 'Password is required.',
         invalidCredentials: 'Email or password is incorrect.'
     },
-    ES: {
+    SPA: {
         mainTitle: 'IAMOOT 2026 - Acceso a la Plataforma',
         userLabel: 'Correo Electronico',
         passwordLabel: 'Contraseña',
