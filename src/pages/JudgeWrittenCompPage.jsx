@@ -1,120 +1,106 @@
 import React, { useContext, useEffect, useState } from 'react'; 
 import { useNavigate } from 'react-router-dom'; 
-import { Button, Card, ListGroup, Spinner } from 'react-bootstrap'; 
+import { Button, Card, ListGroup, Spinner, Alert } from 'react-bootstrap'; 
 
 import { LanguageContext } from '../contexts/LanguageContext';
-import { RoleContext } from "../contexts/RoleContext";
-import { JudgeIDContext } from '../contexts/JudgeIDContext';
+import api from '../services/api';
 
 const JudgeWrittenCompPage = () => { 
 
     const { currentLanguage, resetLanguage } = useContext(LanguageContext);
-    const { currentRole, assignRole } = useContext(RoleContext); 
-    const { judgeID } = useContext(JudgeIDContext);
+    const performNavigation = useNavigate();
 
-    const performNavigation = useNavigate(); 
-    const assignedMemos = JSON.parse(sessionStorage.getItem('assignedMemorandums') || '[]');
 
     const [availableMemos, setAvailableMemos] = useState([]);
     const [isLoadingMemos, setIsLoadingMemos] = useState(true);
+    const [loadError, setLoadError] = useState('');
 
-    const numericJudgeID = Number(judgeID);
 
     const pageText = {
-        EN: {welcomeMsg: 'My Assigned Memorandums', memoText: 'Memorandum:', logoutText: 'Sign Out', noMemosText: 'No remaining memorandums to score'}, 
-        SPA: {welcomeMsg:'Mis Memorándums Asignados', memoText: 'Memorándum', logoutText: 'Cerrar Sesión', noMemosText: 'No quedan memorándums para calificar'},
-        POR: {welcomeMsg: 'Meus Memorandos Atribuídos', memoText: 'Memorando:', logoutText: 'Sair', noMemosText: 'Não há memorandos restantes para pontuar'}
+        EN: {welcomeMsg: 'My Assigned Memorandums', memoText: 'Memorandum:', logoutText: 'Sign Out', noMemosText: 'No remaining memorandums to score', loadingText: 'Loading memorandums...'}, 
+        SPA: {welcomeMsg:'Mis Memorándums Asignados', memoText: 'Memorándum', logoutText: 'Cerrar Sesión', noMemosText: 'No quedan memorándums para calificar', loadingText: 'Cargando memorandums...'},
+        POR: {welcomeMsg: 'Meus Memorandos Atribuídos', memoText: 'Memorando:', logoutText: 'Sair', noMemosText: 'Não há memorandos restantes para pontuar', loadingText: 'Carregando memorandos...'}
     };
 
-    const actualText = pageText[currentLanguage];
+    const actualText = pageText[currentLanguage] || pageText.EN;;
 
     const handleSignOut = () => {
-        resetLanguage(); 
-        assignRole(''); 
+        localStorage.removeItem('authToken');
+        resetLanguage();
         performNavigation('/');
     };
 
-    /*********************************
-     * CHECKS THAT THE ROLE IS JUDGE *
-     *********************************/
-    useEffect(() => {
-        if (currentRole !== 'Judge'){
-            handleSignOut(); 
-        }
-    }, [currentRole]);
-
+    /******************************************
+    * CHECKS THAT THE USER HAS AN AUTH TOKEN *
+    ******************************************/
     useEffect(() => {
         async function loadAvailableMemos() {
             try {
                 setIsLoadingMemos(true);
-                
-                if (Number.isNaN(numericJudgeID)) {
-                    setAvailableMemos([]);
-                    return;
+                setLoadError('');
+
+                const response = await api.get('/api/written-judges/me');
+
+                if (!response.data?.ok) {
+                    throw new Error(response.data?.message || 'Unable to load memorandums');
                 }
 
-                const backendBaseURL = import.meta.env.VITE_API_BASE_URL;
-
-                const memoChecks = await Promise.all(
-                    assignedMemos.map(async (memoID) => {
-                        const response = await fetch(
-                            `${backendBaseURL}/api/written-memoranda/${memoID}/scores/${numericJudgeID}`
-                        );
-
-                        const responseData = await response.json();
-
-                        return {
-                            memoID,
-                            hasSubmission: response.ok && responseData.hasSubmission === true
-                        };
-                    })
-                );
-
-                const unsubmittedMemos = memoChecks
-                    .filter((memoCheck) => !memoCheck.hasSubmission)
-                    .map((memoCheck) => memoCheck.memoID);
-
-                setAvailableMemos(unsubmittedMemos);
+                setAvailableMemos(response.data.memoranda || []);
             } catch (error) {
                 console.error('ERROR LOADING AVAILABLE MEMORANDA:', error);
-                setAvailableMemos(assignedMemos);
-            } finally {
-                setIsLoadingMemos(false);
+                
+                if (error.response?.status === 401) {
+                        handleSignOut();
+                        return;
+                    }
+
+                    setLoadError(error.response?.data?.message || error.message || 'Unable to load memorandums');
+                } finally {
+                    setIsLoadingMemos(false);
+                }
             }
-        }
 
-        loadAvailableMemos();
-    }, [judgeID, numericJudgeID]);
+            loadAvailableMemos();
+    }, []);
+
     
-    return <div className='d-grid gap-2'>
-        <Card className='text-center'>
-            <Card.Header as='h1' className='display-5 fw-bold'>{actualText.welcomeMsg}</Card.Header>
-        </Card>
+    return( 
+        <div className='d-grid gap-2'>
+            <Card className='text-center'>
+                <Card.Header as='h1' className='display-5 fw-bold'>{actualText.welcomeMsg}</Card.Header>
+            </Card>
 
-        <ListGroup>
-            {isLoadingMemos ? (
-                <ListGroup.Item className='text-center'>
-                    <Spinner animation='border' size='sm' /> Loading memorandums...
-                </ListGroup.Item>
-            ) : availableMemos.length === 0 ? (
-                <ListGroup.Item>{actualText.noMemosText}</ListGroup.Item>
-            ) : (
-                availableMemos.map((memoId) => (
-                    <ListGroup.Item
-                        key={memoId}
-                        action
-                        onClick={() => performNavigation(`/writtencomp/memorandum/${memoId}`)}
-                        style={{ cursor: 'pointer' }}
-                    >
-                        {actualText.memoText} {memoId}
-                    </ListGroup.Item>
-                ))
+            {loadError && (
+                <Alert variant='danger' className='text-center fw-semibold'>
+                    {loadError}
+                </Alert>
             )}
-        </ListGroup>
+        
+            <ListGroup>
+                {isLoadingMemos ? (
+                    <ListGroup.Item className='text-center'>
+                        <Spinner animation='border' size='sm' /> {actualText.loadingText}
+                    </ListGroup.Item>
+                ) : availableMemos.length === 0 ? (
+                    <ListGroup.Item>{actualText.noMemosText}</ListGroup.Item>
+                ) : (
+                    availableMemos.map((memo) => (
+                        <ListGroup.Item
+                            key={memo.memorandumID}
+                            action
+                            onClick={() => performNavigation(`/writtencomp/memorandum/${memo.memorandumID}`)}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            {actualText.memoText} {memo.memorandumID}
+                            {memo.status ? ` - ${memo.status}` : ''}
+                        </ListGroup.Item>
+                    ))
+                )}
+            </ListGroup>
 
-        <Button variant='danger' onClick={handleSignOut}>{actualText.logoutText}</Button>
-    </div>
-
+            <Button variant='danger' onClick={handleSignOut}>{actualText.logoutText}</Button>
+        </div>
+    );
 };
 
 export default JudgeWrittenCompPage;
