@@ -55,7 +55,7 @@ const WrittenDetailsPage = () => {
             scoreLoadErrorMsg: 'No se pudieron cargar las puntuaciones guardadas',
             successMsg: 'Puntuaciones enviadas con éxito.',
             lockedMsg: 'Las puntuaciones para este memorándum ya fueron enviadas y están bloqueadas.',
-            benchMemoTitle: 'Memorandos Inforamatio',
+            benchMemoTitle: 'Memorandos Informativos',
             openEnglishBenchMemoMsg: 'Abrir Memorándum Informativo en Inglés',
             openSpanishBenchMemoMsg: 'Abrir Memorándum Informativo en Español'
         },
