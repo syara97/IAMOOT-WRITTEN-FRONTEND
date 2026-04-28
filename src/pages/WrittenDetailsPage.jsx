@@ -37,7 +37,10 @@ const WrittenDetailsPage = () => {
             loadingScoresMsg: 'Loading saved scores...',
             scoreLoadErrorMsg: 'Unable to load saved scores',
             successMsg: 'Scores submitted successfully.',
-            lockedMsg: 'Scores for this memorandum were already submitted and are locked.'
+            lockedMsg: 'Scores for this memorandum were already submitted and are locked.',
+            benchMemoTitle: 'Bench Memorandum',
+            openEnglishBenchMemoMsg: 'Open Bench Memorandum in English',
+            openSpanishBenchMemoMsg: 'Open Bench Memorandum in Spanish'
         },
         SPA: {
             pageTitle: 'Memorándum',
@@ -51,7 +54,10 @@ const WrittenDetailsPage = () => {
             loadingScoresMsg: 'Cargando puntuaciones guardadas...',
             scoreLoadErrorMsg: 'No se pudieron cargar las puntuaciones guardadas',
             successMsg: 'Puntuaciones enviadas con éxito.',
-            lockedMsg: 'Las puntuaciones para este memorándum ya fueron enviadas y están bloqueadas.'
+            lockedMsg: 'Las puntuaciones para este memorándum ya fueron enviadas y están bloqueadas.',
+            benchMemoTitle: 'Memorandos Inforamatio',
+            openEnglishBenchMemoMsg: 'Abrir Memorándum Informativo en Inglés',
+            openSpanishBenchMemoMsg: 'Abrir Memorándum Informativo en Español'
         },
         POR: {
             pageTitle: 'Memorando',
@@ -65,12 +71,20 @@ const WrittenDetailsPage = () => {
             loadingScoresMsg: 'Carregando pontuações salvas...',
             scoreLoadErrorMsg: 'Não foi possível carregar as pontuações salvas',
             successMsg: 'Pontuações enviadas com sucesso.',
-            lockedMsg: 'As pontuações para este memorando já foram enviadas e estão bloqueadas.'
+            lockedMsg: 'As pontuações para este memorando já foram enviadas e estão bloqueadas.',
+            benchMemoTitle: 'Memorandos Informativos',
+            openEnglishBenchMemoMsg: 'Abrir Memorando Informativo em Inglês',
+            openSpanishBenchMemoMsg: 'Abrir Memorando Informativo em Espanhol'
         }
     };
 
     const actualText = pageText[currentLanguage] || pageText.EN;
     const actualFormText = questionText[currentLanguage] || questionText.EN;
+
+    const benchMemoLinks = {
+        EN: 'https://docsend.com/view/xtg8bkmkuj35f77b',
+        SPA: 'https://docsend.com/view/r5hdaevskcq3mj29'
+    };
 
     const handleSignOut = () => {
         localStorage.removeItem('authToken');
@@ -241,6 +255,26 @@ const WrittenDetailsPage = () => {
                                 onClick={() => window.open(memorandumLink, '_blank', 'noopener,noreferrer')}
                             >
                                 {actualText.openMemoMsg}
+                            </Button>
+
+                            <hr className='my-3' />
+
+                            <div className='fw-bold text-center'>
+                                {actualText.benchMemoTitle} 
+                            </div>
+
+                            <Button
+                                variant='secondary'
+                                onClick={() => window.open(benchMemoLinks.EN, '_blank', 'noopener,noreferrer')}
+                            >
+                                {actualText.openEnglishBenchMemoMsg}
+                            </Button>
+
+                            <Button
+                                variant='secondary'
+                                onClick={() => window.open(benchMemoLinks.SPA, '_blank', 'noopener,noreferrer')}
+                            >
+                                {actualText.openSpanishBenchMemoMsg}
                             </Button>
                         </div>
                     )}
