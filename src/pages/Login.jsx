@@ -6,6 +6,8 @@ import { Alert, Button, Card, Form } from 'react-bootstrap';
 import { LanguageContext } from '../contexts/LanguageContext';
 import api from '../services/api';
 
+const selectedImage = "images/LogoIAMOOT.jpeg";
+
 const pageText = {
     EN: {
         mainTitle: 'IAMOOT 2026 - Access the Platform',
@@ -91,6 +93,8 @@ export default function Login() {
         {authError && (
             <Alert variant='danger' className='mx-4 text-center fw-semibold'>{authError}</Alert>
         )}
+
+        <Image src={selectedImage} alt='IAMOOT Logo' fluid className='mx-auto d-block' style={{ width: '50%', maxWidth: '620px', height: 'auto' }} />
 
         <Form onSubmit={handleSubmit(onSubmit)} noValidate>
             <Form.Group className='mb-3 px-4'>

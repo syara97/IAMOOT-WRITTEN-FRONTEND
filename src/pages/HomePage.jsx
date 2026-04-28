@@ -9,6 +9,8 @@ const HomePage = () => {
     const { changeLanguage } = useContext(LanguageContext); 
     const performNavigation = useNavigate(); 
 
+    const selectedImage = "images/LogoIAMOOT.jpeg";
+
     const performLanguageChange = (someLanguage, someRoute) => {
         changeLanguage(someLanguage)
         performNavigation(someRoute)
@@ -18,6 +20,8 @@ const HomePage = () => {
         <Card className='text-center mb-3'>
             <Card.Header as='h1' className='display-5 fw-bold'>IAMOOT 2026 - Language Selection</Card.Header>
         </Card>
+
+        <Image src={selectedImage} alt='IAMOOT Logo' fluid className='mx-auto d-block' style={{ width: '50%', maxWidth: '620px', height: 'auto' }} />
 
         <Button variant='primary' onClick={() => (performLanguageChange('EN', '/login'))}>English</Button>
         <Button variant='primary' onClick={() => (performLanguageChange('SPA', '/login'))}>Español</Button>
