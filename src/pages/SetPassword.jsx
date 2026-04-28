@@ -145,7 +145,7 @@ export default function SetPassword() {
                 <Alert variant='success' className='mt-3 text-center text-success fw-semibold'>{actualText.successMsg}</Alert>
 
                 <div className='text-center mt-3'>
-                    <Link className='text-muted fw-semibold' to='/login'>{actualText.returnLink}</Link>
+                    <Link className='text-muted fw-semibold' to='/'>{actualText.returnLink}</Link>
                 </div>
             </>
         )}
