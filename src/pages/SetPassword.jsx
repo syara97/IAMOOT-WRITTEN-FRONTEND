@@ -20,7 +20,7 @@ const pageText = {
         successMsg: 'Your password has been set successfully. You may now log in.',
         returnLink: 'Return to Login'
     },
-    ES: {
+    SPA: {
         mainTitle: 'IAMOOT 2026 - Establecer Contraseña',
         passwordLabel: 'Nueva Contraseña',
         confirmPasswordLabel: 'Confirmar Contraseña',

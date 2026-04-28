@@ -16,7 +16,7 @@ const pageText = {
         emailRequired: 'Email is required.',
         invalidEmail: 'Please enter a valid email address.'
     },
-    ES: {
+    SPA: {
         mainTitle: 'IAMOOT 2026 - Solicitar Contraseña',
         emailLabel: 'Correo Electrónico',
         submitBtn: 'Enviar Enlace de Contraseña',
