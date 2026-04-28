@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
-import { Alert, Button, Card, Form } from 'react-bootstrap';
+import { Alert, Button, Card, Form, Image } from 'react-bootstrap';
 
 import { LanguageContext } from '../contexts/LanguageContext';
 import api from '../services/api';

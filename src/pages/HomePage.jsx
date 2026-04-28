@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'; 
-import { Button, Card } from 'react-bootstrap'
+import { Button, Card, Image } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
 
 import { LanguageContext } from '../contexts/LanguageContext';
