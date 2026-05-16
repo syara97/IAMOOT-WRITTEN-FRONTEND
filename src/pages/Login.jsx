@@ -67,6 +67,8 @@ export default function Login() {
 
     const onSubmit = async (someData) => {
 
+        if (true) return setAuthError('Sign-in is disabled.'); // TEMPORARY DISABLE LOGIN
+
         try {
             const loginResponse = await api.post('/api/written-judges/login', {
                 email: someData.email,
@@ -131,8 +133,7 @@ export default function Login() {
                 )}
             </Form.Group>
 
-            <div className='d-grid gap-2'><Button variant='primary' active={false}>{actualText.submitBtn}</Button></div>
-            {/* <div className='d-grid gap-2'><Button type='submit' disabled={isSubmitting}>{actualText.submitBtn}</Button></div> */}
+            <div className='d-grid gap-2'><Button type='submit' disabled={isSubmitting}>{actualText.submitBtn}</Button></div>
         </Form>
 
         <div className='text-center mt-3'><Link className='text-muted fw-semibold' to='/request-password'>{actualText.passwordHelp}</Link></div>
