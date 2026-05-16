@@ -131,7 +131,8 @@ export default function Login() {
                 )}
             </Form.Group>
 
-            <div className='d-grid gap-2'><Button type='submit' disabled={isSubmitting}>{actualText.submitBtn}</Button></div>
+            <div className='d-grid gap-2'><Button variant='primary' active={false}>{actualText.submitBtn}</Button></div>
+            {/* <div className='d-grid gap-2'><Button type='submit' disabled={isSubmitting}>{actualText.submitBtn}</Button></div> */}
         </Form>
 
         <div className='text-center mt-3'><Link className='text-muted fw-semibold' to='/request-password'>{actualText.passwordHelp}</Link></div>
