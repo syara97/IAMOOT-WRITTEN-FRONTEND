@@ -97,8 +97,8 @@ export default function Login() {
         <Image src={selectedImage} alt='IAMOOT Logo' fluid className='mx-auto d-block' style={{ width: '50%', maxWidth: '620px', height: 'auto' }} />
 
 
-        {/* <Form onSubmit={handleSubmit(onSubmit)} noValidate> */}
-        <Form onSubmit={(e) => { e.preventDefault(); setAuthError('Sign-in is disabled.'); }} noValidate>
+        <Form onSubmit={handleSubmit(onSubmit)} noValidate>
+        {/*<Form onSubmit={(e) => { e.preventDefault(); setAuthError('Sign-in is disabled.'); }} noValidate> */}
             <Form.Group className='mb-3 px-4'>
                 <div className="d-flex align-items-center">
                     <Form.Label className='fw-bold text-nowrap d-flex align-items-center mb-0 me-2' style={{ height: '38px' }}>{actualText.userLabel}</Form.Label>
